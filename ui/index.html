@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sweep</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="titlebar" data-tauri-drag-region>
+    <div class="seg" role="tablist">
+      <button class="active" data-tab="cleanup" role="tab">Cleanup</button>
+      <button data-tab="projects" role="tab">Projects</button>
+      <button data-tab="storage" role="tab">Storage</button>
+    </div>
+    <div class="disk" data-tauri-drag-region>
+      <div class="disk-text" id="diskText" data-tauri-drag-region></div>
+      <div class="disk-bar" data-tauri-drag-region><div id="diskUsed"></div></div>
+    </div>
+  </header>
+
+  <main>
+    <section id="cleanup" class="panel active">
+      <div id="cleanupList"></div>
+    </section>
+
+    <section id="projects" class="panel">
+      <div class="toolbar">
+        <div class="root">
+          <span class="muted">In</span>
+          <button class="link" id="rootBtn" title="Choose a folder to scan">~</button>
+          <button class="icon-btn" id="rescanBtn" title="Scan again" aria-label="Scan again">
+            <svg viewBox="0 0 16 16" width="14" height="14"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <button class="link" id="staleBtn">Select untouched for 30+ days</button>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div id="projectList"></div>
+    </section>
+
+    <section id="storage" class="panel">
+      <div class="hero">
+        <div>
+          <div class="hero-num" id="stUsed"></div>
+          <div class="muted" id="stSub"></div>
+        </div>
+        <button class="icon-btn" id="stRescan" title="Measure again" aria-label="Measure again">
+          <svg viewBox="0 0 16 16" width="14" height="14"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="stack" id="stack" role="img" aria-label="Disk usage by category"></div>
+      <div id="storageList"></div>
+      <p class="note" id="stNote" hidden>
+        Some app data can't be read without Full Disk Access, so it's counted in System &amp; other.
+        <button class="link" id="stAccess">Allow access</button>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div id="summary" class="muted">Nothing selected</div>
+    <div id="progress-bar" class="progress" hidden><div></div></div>
+    <button id="cleanBtn" class="primary" disabled>Clean</button>
+  </footer>
+
+  <div id="modal" class="modal" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <h2 id="mTitle"></h2>
+      <p id="mBody"></p>
+      <div class="actions">
+        <button class="ghost" id="mCancel">Cancel</button>
+        <button class="danger" id="mOk">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+  <div id="tip" class="tip" hidden></div>
+  <script>if (!window.__TAURI__) document.write('<script src="dev-mock.js"><\/script>');</script>
+  <script src="app.js"></script>
+</body>
+</html>
